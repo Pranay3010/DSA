@@ -147,7 +147,7 @@ void update(int pos, int val){
 
 }
 
-    void search(int val){
+void search(int val){
         struct Node *temp = head;
         if(temp==NULL){
             printf("List is Already Empty:");
