@@ -65,11 +65,12 @@ void insertAtPos(int pos, int val){
     }
     
 
+
     struct Node *temp =head;
-    for(int i=1;i<pos-1 && temp!=NULL ;i++){
+    for(int i=1;i<pos-1 && temp!=head ;i++){
         temp = temp->next;
     }
-    if(temp == NULL){
+    if(temp==head){
         printf("Invalid Position");
         return;
     }
