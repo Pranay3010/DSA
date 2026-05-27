@@ -5,119 +5,181 @@ struct Node{
     int data;
     struct Node *next;
     struct Node *prev;
-
 };
-struct Node *front= NULL;
-struct Node *rear= NULL;
 
+struct Node *front = NULL;
+struct Node *rear = NULL;
+
+// Insert at Front
 void enqueueAtFront(int val){
 
-    struct Node *newnode =(struct Node*)malloc(sizeof(struct Node));
+    struct Node *newnode = (struct Node*)malloc(sizeof(struct Node));
 
-    if(newnode==NULL){
-        printf("Heap is Overflow\n");
+    if(newnode == NULL){
+        printf("Heap Overflow\n");
         return;
     }
 
-    newnode->data=val;
-    if(front==NULL){
-        rear = front =newnode;
-        rear->next = front->next = NULL;
-        rear->prev = front->prev = NULL;
+    newnode->data = val;
+    newnode->prev = NULL;
+    newnode->next = NULL;
 
-    }else{
-
-        front->prev=newnode;
-        newnode->next =front;
-        newnode->prev=NULL;
-        front=newnode;
+    // Empty Queue
+    if(front == NULL){
+        front = rear = newnode;
     }
-    printf("Data Inserted %d \n",val);
+    else{
+        newnode->next = front;
+        front->prev = newnode;
+        front = newnode;
+    }
 
+    printf("Inserted at Front: %d\n", val);
 }
 
-
+// Insert at Rear
 void enqueueAtRear(int val){
-    struct Node *newnode =(struct Node*)malloc(sizeof(struct Node));
 
-    if(newnode==NULL){
-        printf("Heap is Overflow\n");
+    struct Node *newnode = (struct Node*)malloc(sizeof(struct Node));
+
+    if(newnode == NULL){
+        printf("Heap Overflow\n");
         return;
     }
-    newnode->data=val;
-    if(front==NULL){
-        rear = front =newnode;
-        rear->next = front->next = NULL;
-        rear->prev = front->prev = NULL;
 
-    }else{
-        rear->next=newnode;
-        newnode->prev=rear;
-        newnode->next=NULL;
-        rear=newnode;
+    newnode->data = val;
+    newnode->next = NULL;
+    newnode->prev = NULL;
+
+    // Empty Queue
+    if(front == NULL){
+        front = rear = newnode;
     }
-    printf("Data Inserted %d \n",val);
+    else{
+        rear->next = newnode;
+        newnode->prev = rear;
+        rear = newnode;
+    }
 
+    printf("Inserted at Rear: %d\n", val);
 }
 
+// Delete from Front
+void dequeueFromFront(){
+
+    if(front == NULL){
+        printf("Queue is Empty\n");
+        return;
+    }
+
+    struct Node *temp = front;
+
+    // Only one node
+    if(front == rear){
+        front = rear = NULL;
+    }
+    else{
+        front = front->next;
+        front->prev = NULL;
+    }
+
+    printf("Deleted from Front: %d\n", temp->data);
+    free(temp);
+}
+
+// Delete from Rear
+void dequeueFromRear(){
+
+    if(rear == NULL){
+        printf("Queue is Empty\n");
+        return;
+    }
+
+    struct Node *temp = rear;
+
+    // Only one node
+    if(front == rear){
+        front = rear = NULL;
+    }
+    else{
+        rear = rear->prev;
+        rear->next = NULL;
+    }
+
+    printf("Deleted from Rear: %d\n", temp->data);
+    free(temp);
+}
+
+// Display Queue
 void display(){
-    if (front==NULL)
-    {
-        printf("Queue is Already Empty\n");
+
+    if(front == NULL){
+        printf("Queue is Empty\n");
         return;
     }
-    struct Node *temp= front;
 
-    do
-    {
-        printf(" %d ", temp->data);
-        temp=temp->next;
-    } while (temp!=NULL);
+    struct Node *temp = front;
+
+    printf("Queue: ");
+
+    while(temp != NULL){
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+
     printf("\n");
-    
 }
-
 
 int main(){
 
-    int ch;
-    int val;
+    int ch, val;
 
-    do{
-        printf("-----------------QUEUE MENU---------------------\n");
-    printf("1. EnqueueAtFront \n2. EqueueAtRear\n3. Display\n4.  IsEmpty\n5. IsFull\n6. Peak\n7. Exit\n");
+    while(1){
 
-    printf("Enter the Choice: ");
-    scanf("%d",&ch);
+        printf("\n-------- DEQUE MENU --------\n");
+        printf("1. Insert at Front\n");
+        printf("2. Insert at Rear\n");
+        printf("3. Delete from Front\n");
+        printf("4. Delete from Rear\n");
+        printf("5. Display\n");
+        printf("6. Exit\n");
 
-    switch (ch){
-        case 1:
-            printf("Enter the Value: ");
-            scanf("%d",&val);
-            enqueueAtFront(val);
-            break;
+        printf("Enter Choice: ");
+        scanf("%d", &ch);
 
-        case 2:
-            printf("Enter the Value: ");
-            scanf("%d",&val);
-            enqueueAtRear(val);
-            break;
-        case 3:
-            display();
-            break;
+        switch(ch){
 
+            case 1:
+                printf("Enter Value: ");
+                scanf("%d", &val);
+                enqueueAtFront(val);
+                break;
 
+            case 2:
+                printf("Enter Value: ");
+                scanf("%d", &val);
+                enqueueAtRear(val);
+                break;
 
-        case 8:
-            exit(0);
+            case 3:
+                dequeueFromFront();
+                break;
 
-        default:
-            printf("Wrong Input");
-            break;
+            case 4:
+                dequeueFromRear();
+                break;
 
+            case 5:
+                display();
+                break;
+
+            case 6:
+                exit(0);
+
+            default:
+                printf("Invalid Choice\n");
+        }
     }
-    }while(1);
-
 
     return 0;
 }
