@@ -10,15 +10,34 @@ struct Node
 struct Node *head =NULL;
 struct Node *prev =NULL;
 
-
 void reverseList(){
+
     if(head == NULL){
         printf("List is Empty\n");
+        return;
     }
 
-    struct Node *temp=head;
+    struct Node *prev = NULL;
+    struct Node *temp = head;
+    struct Node *nextNode = NULL;
 
-    
+    while(temp != NULL){
+
+        // Store next node
+        nextNode = temp->next;
+
+        // Reverse link
+        temp->next = prev;
+
+        // Move pointers
+        prev = temp;
+        temp = nextNode;
+    }
+
+    // Update head
+    head = prev;
+
+    printf("List Reversed Successfully\n");
 }
 
 void insertAtEnd(int val){
@@ -80,7 +99,7 @@ int main(){
 
         switch (ch)
         {
-        case 1:case 1:
+        case 1:
             printf("Enter the list size: ");
             scanf("%d",&s);
             create(s);
